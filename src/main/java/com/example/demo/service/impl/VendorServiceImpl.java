@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.model.Vendor;
 import com.example.demo.repository.VendorRepository;
 import com.example.demo.service.VendorService;
+import org.springframework.stereotype.Service;   // 🔴 ADD THIS
 
 import java.util.List;
 
+@Service   // 🔴 THIS FIXES YOUR ERROR
 public class VendorServiceImpl implements VendorService {
 
     private final VendorRepository vendorRepository;
