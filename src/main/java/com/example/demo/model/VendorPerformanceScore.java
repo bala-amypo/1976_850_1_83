@@ -1,61 +1,61 @@
 package com.example.demo.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-public class VendorPerformanceScore {
-          @Id
-          @GeneratedValue(strategy = GenerationType.IDENTITY)
-          private Long id;
-          
-          private Double onTimePercentage;
-          private Double qualityCompliancePercentage;
-          private Double overallScore;
+@Entity
+@Table(
+    name = "performance_scores",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "delivery_evaluation_id")
+    }
+)
+public class PerformanceScore {
 
-        public VendorPerformanceScore(Double onTimePercentage, Double qualityCompliancePercentage,
-                Double overallScore) {
-            this.onTimePercentage = onTimePercentage;
-            this.qualityCompliancePercentage = qualityCompliancePercentage;
-            this.overallScore = overallScore;
-        }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        public VendorPerformanceScore(){
+    @Column(nullable = false)
+    private int overallScore;
 
-        }
+    @Column(nullable = false)
+    private boolean active = true;
 
+    @OneToOne
+    @JoinColumn(
+        name = "delivery_evaluation_id",
+        nullable = false,
+        unique = true
+    )
+    private DeliveryEvaluation deliveryEvaluation;
+
+    // getters and setters
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getOnTimePercentage() {
-        return onTimePercentage;
-    }
-
-    public void setOnTimePercentage(Double onTimePercentage) {
-        this.onTimePercentage = onTimePercentage;
-    }
-
-    public Double getQualityCompliancePercentage() {
-        return qualityCompliancePercentage;
-    }
-
-    public void setQualityCompliancePercentage(Double qualityCompliancePercentage) {
-        this.qualityCompliancePercentage = qualityCompliancePercentage;
-    }
-
-    public Double getOverallScore() {
+    public int getOverallScore() {
         return overallScore;
     }
 
-    public void setOverallScore(Double overallScore) {
+    public void setOverallScore(int overallScore) {
         this.overallScore = overallScore;
     }
-         
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public DeliveryEvaluation getDeliveryEvaluation() {
+        return deliveryEvaluation;
+    }
+
+    public void setDeliveryEvaluation(DeliveryEvaluation deliveryEvaluation) {
+        this.deliveryEvaluation = deliveryEvaluation;
+    }
 }
