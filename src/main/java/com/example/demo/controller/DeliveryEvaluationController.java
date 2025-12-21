@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
-public class DeliveryEvaluationContoller{
-    
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DeliveryEvaluationController {
 }
