@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VendorPerformanceScoreRepository
         extends JpaRepository<VendorPerformanceScore, Long> {
+
+    boolean existsByDeliveryEvaluationId(Long deliveryEvaluationId);
 }

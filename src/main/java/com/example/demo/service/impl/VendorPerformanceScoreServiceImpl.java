@@ -10,78 +10,60 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
+public class VendorPerformanceScoreServiceImpl
+        implements VendorPerformanceScoreService {
 
-    private final VendorPerformanceScoreRepository vendorPerformanceScoreRepository;
+    private final VendorPerformanceScoreRepository scoreRepository;
     private final DeliveryEvaluationRepository deliveryEvaluationRepository;
 
-    // ✅ Constructor injection (VERY IMPORTANT)
     public VendorPerformanceScoreServiceImpl(
-            VendorPerformanceScoreRepository vendorPerformanceScoreRepository,
+            VendorPerformanceScoreRepository scoreRepository,
             DeliveryEvaluationRepository deliveryEvaluationRepository) {
-
-        this.vendorPerformanceScoreRepository = vendorPerformanceScoreRepository;
+        this.scoreRepository = scoreRepository;
         this.deliveryEvaluationRepository = deliveryEvaluationRepository;
     }
 
     @Override
     public VendorPerformanceScore create(VendorPerformanceScore score) {
 
-        if (score.getDeliveryEvaluation() == null ||
-                score.getDeliveryEvaluation().getId() == null) {
-            throw new IllegalArgumentException("DeliveryEvaluation ID is required");
-        }
+        Long deliveryEvalId = score.getDeliveryEvaluation().getId();
 
         DeliveryEvaluation evaluation = deliveryEvaluationRepository
-                .findById(score.getDeliveryEvaluation().getId())
+                .findById(deliveryEvalId)
                 .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
 
+        if (scoreRepository.existsByDeliveryEvaluationId(deliveryEvalId)) {
+            throw new IllegalArgumentException(
+                    "Performance score already exists for this delivery evaluation");
+        }
+
         score.setDeliveryEvaluation(evaluation);
+
+        // OPTIONAL: auto-calculate score
+        int overall =
+                (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
+
+        score.setOverallScore(overall);
         score.setActive(true);
 
-        // Optional auto-calc
-        int overall = (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
-        score.setOverallScore(overall);
-
-        return vendorPerformanceScoreRepository.save(score);
-    }
-
-    @Override
-    public VendorPerformanceScore getById(Long id) {
-        return vendorPerformanceScoreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("VendorPerformanceScore not found"));
+        return scoreRepository.save(score);
     }
 
     @Override
     public List<VendorPerformanceScore> getAll() {
-        return vendorPerformanceScoreRepository.findAll();
+        return scoreRepository.findAll();
     }
 
     @Override
-    public VendorPerformanceScore update(Long id, VendorPerformanceScore updated) {
-
-        VendorPerformanceScore existing = getById(id);
-
-        if (updated.getDeliveryEvaluation() != null &&
-                updated.getDeliveryEvaluation().getId() != null) {
-
-            DeliveryEvaluation evaluation = deliveryEvaluationRepository
-                    .findById(updated.getDeliveryEvaluation().getId())
-                    .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
-
-            existing.setDeliveryEvaluation(evaluation);
-
-            int overall = (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
-            existing.setOverallScore(overall);
-        }
-
-        return vendorPerformanceScoreRepository.save(existing);
+    public VendorPerformanceScore getById(Long id) {
+        return scoreRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Performance score not found"));
     }
 
     @Override
     public void deactivate(Long id) {
         VendorPerformanceScore score = getById(id);
         score.setActive(false);
-        vendorPerformanceScoreRepository.save(score);
+        scoreRepository.save(score);
     }
 }
