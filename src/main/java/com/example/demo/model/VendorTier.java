@@ -1,13 +1,12 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(
-    name = "vendor_tier",
+    name = "vendor_tiers",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "tierName")
+        @UniqueConstraint(columnNames = "tier_name")
     }
 )
 public class VendorTier {
@@ -16,26 +15,21 @@ public class VendorTier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "tier_name", nullable = false, unique = true)
     private String tierName;
 
-    @Column(nullable = false)
-    private String description;
+    @Column(name = "min_score", nullable = false)
+    private Integer minScore;
+
+    @Column(name = "max_score", nullable = false)
+    private Integer maxScore;
 
     @Column(nullable = false)
-    private boolean active;
-
-    @OneToMany(mappedBy = "vendorTier")
-    private List<Vendor> vendors;
+    private Boolean active = true;
 
     // getters & setters
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTierName() {
@@ -46,19 +40,27 @@ public class VendorTier {
         this.tierName = tierName;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getMinScore() {
+        return minScore;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMinScore(Integer minScore) {
+        this.minScore = minScore;
     }
 
-    public boolean isActive() {
+    public Integer getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(Integer maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 }
