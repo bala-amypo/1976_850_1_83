@@ -2,24 +2,38 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
-import lombok.Data;
 
 @Entity
-@Data
+@Table(name = "vendors", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 public class Vendor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     private String contactEmail;
     private String contactPhone;
-    
-    // Rule: active defaults to true
+
     private Boolean active = true;
 
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    // getters and setters
 }
