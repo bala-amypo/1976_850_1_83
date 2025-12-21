@@ -1,40 +1,51 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(
-    name = "vendors",
+    name = "vendor",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
+        @UniqueConstraint(columnNames = "contactEmail")
     }
 )
 public class Vendor {
 
-    // 🔑 PRIMARY KEY
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔒 UNIQUE + NOT NULL
-    @Column(nullable = false, unique = true)
+    @NotBlank
+    @Column(nullable = false)
     private String name;
 
-    // OPTIONAL FIELDS
-    @Column(nullable = true)
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String contactEmail;
 
-    @Column(nullable = true)
+    @NotBlank
+    @Column(nullable = false)
     private String contactPhone;
 
-    // DEFAULT TRUE
     @Column(nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
 
-    // ===== GETTERS & SETTERS =====
+    // ✅ REQUIRED MAPPING
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vendor_tier_id", nullable = false)
+    private VendorTier vendorTier;
+
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -61,11 +72,19 @@ public class Vendor {
         this.contactPhone = contactPhone;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public VendorTier getVendorTier() {
+        return vendorTier;
+    }
+
+    public void setVendorTier(VendorTier vendorTier) {
+        this.vendorTier = vendorTier;
     }
 }
