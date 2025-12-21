@@ -1,9 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Vendor;
+import com.example.demo.service.VendorService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/vendors")
-@Tag(name = "Vendor Management") // Required for Swagger
 public class VendorController {
+
     private final VendorService vendorService;
 
     public VendorController(VendorService vendorService) {
@@ -11,12 +17,27 @@ public class VendorController {
     }
 
     @PostMapping
-    public ResponseEntity<Vendor> createVendor(@RequestBody Vendor vendor) {
-        return ResponseEntity.ok(vendorService.createVendor(vendor));
+    public Vendor create(@RequestBody Vendor vendor) {
+        return vendorService.createVendor(vendor);
+    }
+
+    @PutMapping("/{id}")
+    public Vendor update(@PathVariable Long id, @RequestBody Vendor vendor) {
+        return vendorService.updateVendor(id, vendor);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vendor> getVendor(@PathVariable Long id) {
-        return ResponseEntity.ok(vendorService.getVendorById(id));
+    public Vendor getById(@PathVariable Long id) {
+        return vendorService.getVendorById(id);
+    }
+
+    @GetMapping
+    public List<Vendor> getAll() {
+        return vendorService.getAllVendors();
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public void deactivate(@PathVariable Long id) {
+        vendorService.deactivateVendor(id);
     }
 }
