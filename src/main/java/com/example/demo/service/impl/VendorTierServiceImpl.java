@@ -17,47 +17,29 @@ public class VendorTierServiceImpl implements VendorTierService {
     }
 
     @Override
-    public VendorTier createVendorTier(VendorTier tier) {
+    public VendorTier create(VendorTier vendorTier) {
 
-        if (vendorTierRepository.existsByTierName(tier.getTierName())) {
-            throw new IllegalArgumentException("Tier name must be unique");
+        if (vendorTierRepository.existsByTierName(vendorTier.getTierName())) {
+            throw new IllegalArgumentException("Tier name already exists");
         }
 
-        tier.setActive(true);
-        return vendorTierRepository.save(tier);
+        return vendorTierRepository.save(vendorTier);
     }
 
     @Override
-    public VendorTier updateVendorTier(Long id, VendorTier tier) {
-
-        VendorTier existing = vendorTierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("VendorTier not found"));
-
-        if (!existing.getTierName().equals(tier.getTierName())
-                && vendorTierRepository.existsByTierName(tier.getTierName())) {
-            throw new IllegalArgumentException("Tier name must be unique");
-        }
-
-        existing.setTierName(tier.getTierName());
-        existing.setDescription(tier.getDescription());
-
-        return vendorTierRepository.save(existing);
-    }
-
-    @Override
-    public VendorTier getVendorTierById(Long id) {
-        return vendorTierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("VendorTier not found"));
-    }
-
-    @Override
-    public List<VendorTier> getAllVendorTiers() {
+    public List<VendorTier> getAll() {
         return vendorTierRepository.findAll();
     }
 
     @Override
-    public void deactivateVendorTier(Long id) {
-        VendorTier tier = getVendorTierById(id);
+    public VendorTier getById(Long id) {
+        return vendorTierRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vendor tier not found"));
+    }
+
+    @Override
+    public void deactivate(Long id) {
+        VendorTier tier = getById(id);
         tier.setActive(false);
         vendorTierRepository.save(tier);
     }

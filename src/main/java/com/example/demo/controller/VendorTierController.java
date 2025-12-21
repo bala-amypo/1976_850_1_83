@@ -17,27 +17,22 @@ public class VendorTierController {
     }
 
     @PostMapping
-    public VendorTier create(@RequestBody VendorTier tier) {
-        return vendorTierService.createVendorTier(tier);
-    }
-
-    @PutMapping("/{id}")
-    public VendorTier update(@PathVariable Long id, @RequestBody VendorTier tier) {
-        return vendorTierService.updateVendorTier(id, tier);
-    }
-
-    @GetMapping("/{id}")
-    public VendorTier getById(@PathVariable Long id) {
-        return vendorTierService.getVendorTierById(id);
+    public VendorTier create(@RequestBody VendorTier vendorTier) {
+        return vendorTierService.create(vendorTier);
     }
 
     @GetMapping
     public List<VendorTier> getAll() {
-        return vendorTierService.getAllVendorTiers();
+        return vendorTierService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public VendorTier getById(@PathVariable Long id) {
+        return vendorTierService.getById(id);
     }
 
     @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
-        vendorTierService.deactivateVendorTier(id);
+        vendorTierService.deactivate(id);
     }
 }
