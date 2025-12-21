@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Sla;
+import com.example.demo.model.SLARequirement;
 import java.util.List;
 
-public interface SlaService {
+public interface SLARequirementService {
 
-    Sla createSla(Sla sla);
+    SLARequirement createSLA(SLARequirement sla);
 
-    List<Sla> getAllSlas();
+    SLARequirement updateSLA(Long id, SLARequirement sla);
+
+    SLARequirement getSLAById(Long id);
+
+    List<SLARequirement> getAllSLAs();
 }
