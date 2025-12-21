@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
-public interface SLARequirementRepository {
-    
+import com.example.demo.model.Sla;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SlaRepository extends JpaRepository<Sla, Long> {
 }
