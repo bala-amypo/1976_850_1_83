@@ -12,79 +12,76 @@ import java.util.List;
 @Service
 public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
 
-    private final VendorPerformanceScoreRepository repository;
+    private final VendorPerformanceScoreRepository vendorPerformanceScoreRepository;
     private final DeliveryEvaluationRepository deliveryEvaluationRepository;
 
+    // ✅ Constructor injection (VERY IMPORTANT)
     public VendorPerformanceScoreServiceImpl(
-            VendorPerformanceScoreRepository repository,
+            VendorPerformanceScoreRepository vendorPerformanceScoreRepository,
             DeliveryEvaluationRepository deliveryEvaluationRepository) {
-        this.repository = repository;
+
+        this.vendorPerformanceScoreRepository = vendorPerformanceScoreRepository;
         this.deliveryEvaluationRepository = deliveryEvaluationRepository;
     }
 
-   @Override
-public VendorPerformanceScore create(VendorPerformanceScore score) {
-
-    if (score.getDeliveryEvaluation() == null ||
-        score.getDeliveryEvaluation().getId() == null) {
-        throw new RuntimeException("DeliveryEvaluation ID is required");
-    }
-
-    Long deliveryId = score.getDeliveryEvaluation().getId();
-
-    DeliveryEvaluation delivery = deliveryEvaluationRepository.findById(deliveryId)
-            .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
-
-    // Calculate overall score automatically
-    int calculatedScore =
-            (delivery.getDeliveryScore() + delivery.getQualityScore()) / 2;
-
-    score.setOverallScore(calculatedScore);
-    score.setDeliveryEvaluation(delivery);
-    score.setActive(true);
-
-    return vendorPerformanceScoreRepository.save(score);
-}
-
-
     @Override
-    public VendorPerformanceScore update(Long id, VendorPerformanceScore updated) {
+    public VendorPerformanceScore create(VendorPerformanceScore score) {
 
-        VendorPerformanceScore existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PerformanceScore not found"));
-
-        if (updated.getDeliveryEvaluation() != null) {
-            Long deliveryId = updated.getDeliveryEvaluation().getId();
-
-            DeliveryEvaluation delivery = deliveryEvaluationRepository.findById(deliveryId)
-                    .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
-
-            existing.setDeliveryEvaluation(delivery);
+        if (score.getDeliveryEvaluation() == null ||
+                score.getDeliveryEvaluation().getId() == null) {
+            throw new IllegalArgumentException("DeliveryEvaluation ID is required");
         }
 
-        existing.setOverallScore(updated.getOverallScore());
-        existing.setActive(updated.isActive());
+        DeliveryEvaluation evaluation = deliveryEvaluationRepository
+                .findById(score.getDeliveryEvaluation().getId())
+                .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
 
-        return repository.save(existing);
+        score.setDeliveryEvaluation(evaluation);
+        score.setActive(true);
+
+        // Optional auto-calc
+        int overall = (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
+        score.setOverallScore(overall);
+
+        return vendorPerformanceScoreRepository.save(score);
     }
 
     @Override
     public VendorPerformanceScore getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PerformanceScore not found"));
+        return vendorPerformanceScoreRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VendorPerformanceScore not found"));
     }
 
     @Override
     public List<VendorPerformanceScore> getAll() {
-        return repository.findAll();
+        return vendorPerformanceScoreRepository.findAll();
+    }
+
+    @Override
+    public VendorPerformanceScore update(Long id, VendorPerformanceScore updated) {
+
+        VendorPerformanceScore existing = getById(id);
+
+        if (updated.getDeliveryEvaluation() != null &&
+                updated.getDeliveryEvaluation().getId() != null) {
+
+            DeliveryEvaluation evaluation = deliveryEvaluationRepository
+                    .findById(updated.getDeliveryEvaluation().getId())
+                    .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
+
+            existing.setDeliveryEvaluation(evaluation);
+
+            int overall = (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
+            existing.setOverallScore(overall);
+        }
+
+        return vendorPerformanceScoreRepository.save(existing);
     }
 
     @Override
     public void deactivate(Long id) {
-        VendorPerformanceScore score = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PerformanceScore not found"));
-
+        VendorPerformanceScore score = getById(id);
         score.setActive(false);
-        repository.save(score);
+        vendorPerformanceScoreRepository.save(score);
     }
 }
