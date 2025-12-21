@@ -13,14 +13,14 @@ import java.util.List;
 public class VendorPerformanceScoreServiceImpl
         implements VendorPerformanceScoreService {
 
-    private final VendorPerformanceScoreRepository scoreRepository;
-    private final DeliveryEvaluationRepository evaluationRepository;
+    private final VendorPerformanceScoreRepository repository;
+    private final DeliveryEvaluationRepository deliveryEvaluationRepository;
 
     public VendorPerformanceScoreServiceImpl(
-            VendorPerformanceScoreRepository scoreRepository,
-            DeliveryEvaluationRepository evaluationRepository) {
-        this.scoreRepository = scoreRepository;
-        this.evaluationRepository = evaluationRepository;
+            VendorPerformanceScoreRepository repository,
+            DeliveryEvaluationRepository deliveryEvaluationRepository) {
+        this.repository = repository;
+        this.deliveryEvaluationRepository = deliveryEvaluationRepository;
     }
 
     @Override
@@ -28,40 +28,41 @@ public class VendorPerformanceScoreServiceImpl
 
         Long evalId = score.getDeliveryEvaluation().getId();
 
-        DeliveryEvaluation evaluation = evaluationRepository.findById(evalId)
-                .orElseThrow(() -> new RuntimeException("Delivery evaluation not found"));
+        DeliveryEvaluation evaluation =
+                deliveryEvaluationRepository.findById(evalId)
+                        .orElseThrow(() ->
+                                new RuntimeException("DeliveryEvaluation not found"));
 
-        scoreRepository.findByDeliveryEvaluationId(evalId)
-                .ifPresent(s -> {
-                    throw new IllegalArgumentException(
-                            "Performance score already exists for this evaluation");
-                });
+        if (repository.existsByDeliveryEvaluation_Id(evalId)) {
+            throw new RuntimeException("Performance score already exists for this delivery evaluation");
+        }
 
-        int overall =
+        // Auto-calculate overall score
+        int calculatedScore =
                 (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
 
-        score.setOverallScore(overall);
+        score.setOverallScore(calculatedScore);
         score.setDeliveryEvaluation(evaluation);
         score.setActive(true);
 
-        return scoreRepository.save(score);
+        return repository.save(score);
     }
 
     @Override
     public VendorPerformanceScore getById(Long id) {
-        return scoreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Score not found"));
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Performance score not found"));
     }
 
     @Override
     public List<VendorPerformanceScore> getAll() {
-        return scoreRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
-    public VendorPerformanceScore deactivate(Long id) {
+    public void deactivate(Long id) {
         VendorPerformanceScore score = getById(id);
         score.setActive(false);
-        return scoreRepository.save(score);
+        repository.save(score);
     }
 }

@@ -29,7 +29,7 @@ public class VendorPerformanceScore {
     )
     private DeliveryEvaluation deliveryEvaluation;
 
-    // ---------- GETTERS & SETTERS (MANDATORY) ----------
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;

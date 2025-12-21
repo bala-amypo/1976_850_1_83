@@ -12,5 +12,5 @@ public interface VendorPerformanceScoreService {
 
     List<VendorPerformanceScore> getAll();
 
-    VendorPerformanceScore deactivate(Long id);
+    void deactivate(Long id);
 }
