@@ -1,65 +1,99 @@
 package com.example.demo.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "delivery_evaluation")
 public class DeliveryEvaluation {
+
+    // =========================
+    // PRIMARY KEY
+    // =========================
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long actualDeliveryDays;
-    private Double qualityScore;
-     private Boolean meetsDeliveryTarget;
-     private Boolean meetsQualityTarget;
-     
-    public DeliveryEvaluation(Long actualDeliveryDays, Double qualityScore, Boolean meetsDeliveryTarget,
-            Boolean meetsQualityTarget) {
-        this.actualDeliveryDays = actualDeliveryDays;
-        this.qualityScore = qualityScore;
-        this.meetsDeliveryTarget = meetsDeliveryTarget;
-        this.meetsQualityTarget = meetsQualityTarget;
-    }
 
-     public DeliveryEvaluation(){
-        
-     }
+    // =========================
+    // DELIVERY DATE
+    // =========================
+    @Column(nullable = false)
+    private String deliveryDate;
 
+    // =========================
+    // DELIVERY SCORE
+    // =========================
+    @Column(nullable = false)
+    private Integer deliveryScore;
+
+    // =========================
+    // QUALITY SCORE
+    // =========================
+    @Column(nullable = false)
+    private Integer qualityScore;
+
+    // =========================
+    // ACTIVE FLAG (SOFT DELETE)
+    // =========================
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    // =========================
+    // RELATIONSHIP: MANY EVALUATIONS → ONE VENDOR
+    // (Only added because this is standard in SLA tracking)
+    // =========================
+    @ManyToOne
+    @JoinColumn(name = "vendor_id", nullable = false)
+    private Vendor vendor;
+
+    // =========================
+    // GETTERS & SETTERS
+    // =========================
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getActualDeliveryDays() {
-        return actualDeliveryDays;
+
+    public String getDeliveryDate() {
+        return deliveryDate;
     }
-    public void setActualDeliveryDays(Long actualDeliveryDays) {
-        this.actualDeliveryDays = actualDeliveryDays;
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
-    public Double getQualityScore() {
+
+    public Integer getDeliveryScore() {
+        return deliveryScore;
+    }
+
+    public void setDeliveryScore(Integer deliveryScore) {
+        this.deliveryScore = deliveryScore;
+    }
+
+    public Integer getQualityScore() {
         return qualityScore;
     }
-    public void setQualityScore(Double qualityScore) {
+
+    public void setQualityScore(Integer qualityScore) {
         this.qualityScore = qualityScore;
     }
-    public Boolean getMeetsDeliveryTarget() {
-        return meetsDeliveryTarget;
-    }
-    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
-        this.meetsDeliveryTarget = meetsDeliveryTarget;
-    }
-    public Boolean getMeetsQualityTarget() {
-        return meetsQualityTarget;
-    }
-    public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
-        this.meetsQualityTarget = meetsQualityTarget;
-    }
-    
-    
 
+    public Boolean getActive() {
+        return active;
+    }
 
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
+    public Vendor getVendor() {
+        return vendor;
+    }
 
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
 }
