@@ -7,11 +7,11 @@ public interface VendorPerformanceScoreService {
 
     VendorPerformanceScore create(VendorPerformanceScore score);
 
+    VendorPerformanceScore update(Long id, VendorPerformanceScore score);
+
     VendorPerformanceScore getById(Long id);
 
     List<VendorPerformanceScore> getAll();
-
-    VendorPerformanceScore update(Long id, VendorPerformanceScore score); // ✅ ADD THIS
 
     void deactivate(Long id);
 }

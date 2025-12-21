@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(
-    name = "vendor_performance_score",
-    uniqueConstraints = @UniqueConstraint(columnNames = "delivery_evaluation_id")
+    name = "vendor_performance_scores",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "delivery_evaluation_id")
+    }
 )
 public class VendorPerformanceScore {
 
@@ -14,12 +16,12 @@ public class VendorPerformanceScore {
     private Long id;
 
     @Column(nullable = false)
-    private Integer overallScore;
+    private int overallScore;
 
     @Column(nullable = false)
-    private boolean active = true;
+    private boolean active;
 
-    @OneToOne(optional = false)
+    @OneToOne
     @JoinColumn(
         name = "delivery_evaluation_id",
         nullable = false,
@@ -27,5 +29,39 @@ public class VendorPerformanceScore {
     )
     private DeliveryEvaluation deliveryEvaluation;
 
-    // getters & setters
+    // ===== GETTERS =====
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getOverallScore() {
+        return overallScore;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public DeliveryEvaluation getDeliveryEvaluation() {
+        return deliveryEvaluation;
+    }
+
+    // ===== SETTERS =====
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOverallScore(int overallScore) {
+        this.overallScore = overallScore;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setDeliveryEvaluation(DeliveryEvaluation deliveryEvaluation) {
+        this.deliveryEvaluation = deliveryEvaluation;
+    }
 }
