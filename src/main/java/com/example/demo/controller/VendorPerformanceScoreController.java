@@ -33,7 +33,7 @@ public class VendorPerformanceScoreController {
     }
 
     @PutMapping("/{id}/deactivate")
-    public VendorPerformanceScore deactivate(@PathVariable Long id) {
-        return service.deactivate(id);
+    public void deactivate(@PathVariable Long id) {
+        service.deactivate(id);
     }
 }
