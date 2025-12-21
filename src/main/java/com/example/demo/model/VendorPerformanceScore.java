@@ -3,7 +3,12 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "vendor_performance_scores")
+@Table(
+    name = "vendor_performance_scores",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "delivery_evaluation_id")
+    }
+)
 public class VendorPerformanceScore {
 
     @Id
@@ -24,5 +29,33 @@ public class VendorPerformanceScore {
     )
     private DeliveryEvaluation deliveryEvaluation;
 
-    // getters & setters
+    // ---------- GETTERS & SETTERS (MANDATORY) ----------
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getOverallScore() {
+        return overallScore;
+    }
+
+    public void setOverallScore(int overallScore) {
+        this.overallScore = overallScore;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public DeliveryEvaluation getDeliveryEvaluation() {
+        return deliveryEvaluation;
+    }
+
+    public void setDeliveryEvaluation(DeliveryEvaluation deliveryEvaluation) {
+        this.deliveryEvaluation = deliveryEvaluation;
+    }
 }
