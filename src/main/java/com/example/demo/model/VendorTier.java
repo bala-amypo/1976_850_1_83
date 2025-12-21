@@ -1,28 +1,34 @@
 package com.example.demo.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(
+    name = "vendor_tier",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "tierName")
+    }
+)
 public class VendorTier {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String tierName;
-    private Double minScoreThreshold;
+
+    @Column(nullable = false)
     private String description;
-    private Boolean active;
 
-    public VendorTier(String tierName, Double minScoreThreshold, String description, Boolean active) {
-        this.tierName = tierName;
-        this.minScoreThreshold = minScoreThreshold;
-        this.description = description;
-        this.active = active;
-    }
+    @Column(nullable = false)
+    private boolean active;
 
-    public VendorTier(){
-        
-    }
+    @OneToMany(mappedBy = "vendorTier")
+    private List<Vendor> vendors;
+
+    // getters & setters
 
     public Long getId() {
         return id;
@@ -40,14 +46,6 @@ public class VendorTier {
         this.tierName = tierName;
     }
 
-    public Double getMinScoreThreshold() {
-        return minScoreThreshold;
-    }
-
-    public void setMinScoreThreshold(Double minScoreThreshold) {
-        this.minScoreThreshold = minScoreThreshold;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -56,12 +54,11 @@ public class VendorTier {
         this.description = description;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
-
 }
