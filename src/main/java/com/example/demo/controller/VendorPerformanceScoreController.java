@@ -12,7 +12,8 @@ public class VendorPerformanceScoreController {
 
     private final VendorPerformanceScoreService service;
 
-    public VendorPerformanceScoreController(VendorPerformanceScoreService service) {
+    public VendorPerformanceScoreController(
+            VendorPerformanceScoreService service) {
         this.service = service;
     }
 
@@ -22,14 +23,14 @@ public class VendorPerformanceScoreController {
         return service.create(score);
     }
 
-    @GetMapping("/{id}")
-    public VendorPerformanceScore getById(@PathVariable Long id) {
-        return service.getById(id);
-    }
-
     @GetMapping
     public List<VendorPerformanceScore> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public VendorPerformanceScore getById(@PathVariable Long id) {
+        return service.getById(id);
     }
 
     @PutMapping("/{id}/deactivate")
