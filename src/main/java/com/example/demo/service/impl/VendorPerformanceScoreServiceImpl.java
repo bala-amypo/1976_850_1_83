@@ -22,19 +22,30 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         this.deliveryEvaluationRepository = deliveryEvaluationRepository;
     }
 
-    @Override
-    public VendorPerformanceScore create(VendorPerformanceScore score) {
+   @Override
+public VendorPerformanceScore create(VendorPerformanceScore score) {
 
-        Long deliveryId = score.getDeliveryEvaluation().getId();
-
-        DeliveryEvaluation delivery = deliveryEvaluationRepository.findById(deliveryId)
-                .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
-
-        score.setDeliveryEvaluation(delivery);
-        score.setActive(true);
-
-        return repository.save(score);
+    if (score.getDeliveryEvaluation() == null ||
+        score.getDeliveryEvaluation().getId() == null) {
+        throw new RuntimeException("DeliveryEvaluation ID is required");
     }
+
+    Long deliveryId = score.getDeliveryEvaluation().getId();
+
+    DeliveryEvaluation delivery = deliveryEvaluationRepository.findById(deliveryId)
+            .orElseThrow(() -> new RuntimeException("DeliveryEvaluation not found"));
+
+    // Calculate overall score automatically
+    int calculatedScore =
+            (delivery.getDeliveryScore() + delivery.getQualityScore()) / 2;
+
+    score.setOverallScore(calculatedScore);
+    score.setDeliveryEvaluation(delivery);
+    score.setActive(true);
+
+    return vendorPerformanceScoreRepository.save(score);
+}
+
 
     @Override
     public VendorPerformanceScore update(Long id, VendorPerformanceScore updated) {
