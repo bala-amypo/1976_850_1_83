@@ -4,24 +4,32 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(
-    name = "vendor_performance_scores",
+    name = "vendor_performance_score",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = "delivery_evaluation_id")
     }
 )
 public class VendorPerformanceScore {
 
+    // ================= PRIMARY KEY =================
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // ================= DERIVED SCORE =================
     @Column(nullable = false)
     private int overallScore;
 
+    // ================= STATUS =================
     @Column(nullable = false)
     private boolean active = true;
 
-    @OneToOne
+    // ================= RELATIONSHIP =================
+    /**
+     * One-to-One relationship
+     * Each DeliveryEvaluation can have ONLY ONE performance score
+     */
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "delivery_evaluation_id",
         nullable = false,
@@ -29,7 +37,11 @@ public class VendorPerformanceScore {
     )
     private DeliveryEvaluation deliveryEvaluation;
 
-    // ===== Getters & Setters =====
+    // ================= CONSTRUCTORS =================
+    public VendorPerformanceScore() {
+    }
+
+    // ================= GETTERS & SETTERS =================
 
     public Long getId() {
         return id;
