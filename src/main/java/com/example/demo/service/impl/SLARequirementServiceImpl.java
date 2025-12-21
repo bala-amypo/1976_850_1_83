@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SLARequirementServiceImpl
-        implements SLARequirementService {
+public class SLARequirementServiceImpl implements SLARequirementService {
 
     private final SLARequirementRepository repository;
 
-    public SLARequirementServiceImpl(
-            SLARequirementRepository repository) {
+    public SLARequirementServiceImpl(SLARequirementRepository repository) {
         this.repository = repository;
     }
 
@@ -26,11 +24,13 @@ public class SLARequirementServiceImpl
     @Override
     public SLARequirement updateSLA(Long id, SLARequirement sla) {
         SLARequirement existing = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("SLA not found"));
+                .orElseThrow(() -> new RuntimeException("SLA not found"));
 
-        existing.setRequirement(sla.getRequirement());
+        // ✅ CORRECT getters
+        existing.setSlaName(sla.getSlaName());
+        existing.setDescription(sla.getDescription());
         existing.setTargetValue(sla.getTargetValue());
+        existing.setActive(sla.getActive());
 
         return repository.save(existing);
     }
@@ -38,8 +38,7 @@ public class SLARequirementServiceImpl
     @Override
     public SLARequirement getSLAById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("SLA not found"));
+                .orElseThrow(() -> new RuntimeException("SLA not found"));
     }
 
     @Override
