@@ -39,7 +39,7 @@ public class VendorPerformanceScoreServiceImpl
 
         score.setDeliveryEvaluation(evaluation);
 
-        // OPTIONAL: auto-calculate score
+        
         int overall =
                 (evaluation.getDeliveryScore() + evaluation.getQualityScore()) / 2;
 
