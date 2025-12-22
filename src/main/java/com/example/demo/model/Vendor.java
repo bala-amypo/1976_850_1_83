@@ -33,12 +33,12 @@ public class Vendor {
     @Column(nullable = false)
     private boolean active = true;
 
-    // ✅ REQUIRED MAPPING
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_tier_id", nullable = false)
     private VendorTier vendorTier;
 
-    // ===== Getters & Setters =====
+    
 
     public Long getId() {
         return id;

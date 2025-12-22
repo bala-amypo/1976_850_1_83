@@ -20,7 +20,7 @@ public class VendorPerformanceScore {
     @JoinColumn(name = "delivery_evaluation_id", nullable = false, unique = true)
     private DeliveryEvaluation deliveryEvaluation;
 
-    // getters & setters
+    
     public Long getId() {
         return id;
     }
