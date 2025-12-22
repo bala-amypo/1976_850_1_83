@@ -27,7 +27,7 @@ public class VendorTier {
     @Column(nullable = false)
     private Boolean active = true;
 
-    // getters & setters
+    
     public Long getId() {
         return id;
     }
