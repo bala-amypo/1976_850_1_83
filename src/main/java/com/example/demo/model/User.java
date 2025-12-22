@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false)
     private boolean active;
 
-    // getters & setters
+    
 
     public Long getId() {
         return id;

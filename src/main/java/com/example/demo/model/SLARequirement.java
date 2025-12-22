@@ -29,23 +29,15 @@ public class SLARequirement {
     )
     private String description;
 
-    // =========================
-    // TARGET VALUE
-    // =========================
+    
     @Column(nullable = false)
     private Integer targetValue;
 
-    // =========================
-    // ACTIVE FLAG
-    // =========================
+    
     @Column(nullable = false)
     private Boolean active = true;
 
-    // =========================
-    // OPTIONAL RELATIONSHIP
-    // (Example: One SLA per Vendor)
-    // Uncomment ONLY if your document mentions it
-    // =========================
+   
     /*
     @OneToOne
     @JoinColumn(
@@ -56,9 +48,6 @@ public class SLARequirement {
     private Vendor vendor;
     */
 
-    // =========================
-    // GETTERS & SETTERS
-    // =========================
 
     public Long getId() {
         return id;
