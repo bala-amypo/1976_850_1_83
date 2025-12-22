@@ -12,7 +12,7 @@ public class VendorController {
 
     private final VendorService vendorService;
 
-    // Constructor injection (BEST PRACTICE)
+    
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
     }
