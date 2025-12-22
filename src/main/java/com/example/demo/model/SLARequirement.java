@@ -11,16 +11,10 @@ import jakarta.persistence.*;
 )
 public class SLARequirement {
 
-    // =========================
-    // PRIMARY KEY
-    // =========================
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // =========================
-    // SLA NAME (UNIQUE)
-    // =========================
     @Column(
         name = "sla_name",
         nullable = false,
@@ -29,9 +23,6 @@ public class SLARequirement {
     )
     private String slaName;
 
-    // =========================
-    // DESCRIPTION
-    // =========================
     @Column(
         nullable = false,
         length = 255

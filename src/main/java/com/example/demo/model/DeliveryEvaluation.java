@@ -6,48 +6,31 @@ import jakarta.persistence.*;
 @Table(name = "delivery_evaluation")
 public class DeliveryEvaluation {
 
-    // =========================
-    // PRIMARY KEY
-    // =========================
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // =========================
-    // DELIVERY DATE
-    // =========================
+    
     @Column(nullable = false)
     private String deliveryDate;
 
-    // =========================
-    // DELIVERY SCORE
-    // =========================
+    
     @Column(nullable = false)
     private Integer deliveryScore;
 
-    // =========================
-    // QUALITY SCORE
-    // =========================
     @Column(nullable = false)
     private Integer qualityScore;
 
-    // =========================
-    // ACTIVE FLAG (SOFT DELETE)
-    // =========================
+   
     @Column(nullable = false)
     private Boolean active = true;
 
-    // =========================
-    // RELATIONSHIP: MANY EVALUATIONS → ONE VENDOR
-    // (Only added because this is standard in SLA tracking)
-    // =========================
     @ManyToOne
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
 
-    // =========================
-    // GETTERS & SETTERS
-    // =========================
+   
 
     public Long getId() {
         return id;
