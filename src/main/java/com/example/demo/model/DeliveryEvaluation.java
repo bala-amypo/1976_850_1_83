@@ -27,8 +27,10 @@ public class DeliveryEvaluation {
         // default constructor
     }
 
-    public DeliveryEvaluation(Vendor vendor, SLARequirement slaRequirement,
-                              Integer actualDeliveryDays, Double qualityScore,
+    public DeliveryEvaluation(Vendor vendor,
+                              SLARequirement slaRequirement,
+                              Integer actualDeliveryDays,
+                              Double qualityScore,
                               LocalDate evaluationDate) {
         this.vendor = vendor;
         this.slaRequirement = slaRequirement;
@@ -36,8 +38,6 @@ public class DeliveryEvaluation {
         this.qualityScore = qualityScore;
         this.evaluationDate = evaluationDate;
     }
-
-    // ===== Getters and Setters =====
 
     public Long getId() {
         return id;
@@ -83,4 +83,23 @@ public class DeliveryEvaluation {
         return evaluationDate;
     }
 
-    public void
+    public void setEvaluationDate(LocalDate evaluationDate) {
+        this.evaluationDate = evaluationDate;
+    }
+
+    public Boolean getMeetsDeliveryTarget() {
+        return meetsDeliveryTarget;
+    }
+
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
+        this.meetsDeliveryTarget = meetsDeliveryTarget;
+    }
+
+    public Boolean getMeetsQualityTarget() {
+        return meetsQualityTarget;
+    }
+
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
+        this.meetsQualityTarget = meetsQualityTarget;
+    }
+}
