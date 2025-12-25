@@ -24,7 +24,6 @@ public class DeliveryEvaluation {
     private Boolean meetsQualityTarget;
 
     public DeliveryEvaluation() {
-        // default constructor
     }
 
     public DeliveryEvaluation(Vendor vendor,
