@@ -17,28 +17,54 @@ public class SLARequirement {
     private Double minQualityScore;
     private Boolean active = true;
 
-    public SLARequirement() {}
+    public SLARequirement() {
+        // default constructor
+    }
 
-    public SLARequirement(String name, String desc, Integer days, Double score) {
-        this.requirementName = name;
-        this.description = desc;
-        this.maxDeliveryDays = days;
-        this.minQualityScore = score;
+    public SLARequirement(String requirementName, String description,
+                          Integer maxDeliveryDays, Double minQualityScore) {
+        this.requirementName = requirementName;
+        this.description = description;
+        this.maxDeliveryDays = maxDeliveryDays;
+        this.minQualityScore = minQualityScore;
         this.active = true;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ===== Getters and Setters =====
 
-    public String getRequirementName() { return requirementName; }
-    public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
+    public Long getId() {
+        return id;
+    }
 
-    public Integer getMaxDeliveryDays() { return maxDeliveryDays; }
-    public Double getMinQualityScore() { return minQualityScore; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getRequirementName() {
+        return requirementName;
+    }
 
-    public String getDescription() { return description; }
+    public void setRequirementName(String requirementName) {
+        this.requirementName = requirementName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getMaxDeliveryDays() {
+        return maxDeliveryDays;
+    }
+
+    public Double getMinQualityScore() {
+        return minQualityScore;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

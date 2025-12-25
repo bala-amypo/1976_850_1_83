@@ -16,18 +16,54 @@ public class VendorPerformanceScore {
     private Double onTimePercentage;
     private Double qualityCompliancePercentage;
     private Double overallScore;
+
     private Timestamp calculatedAt = new Timestamp(System.currentTimeMillis());
 
-    public VendorPerformanceScore() {}
-
-    public VendorPerformanceScore(Vendor v, Double o, Double q, Double overall) {
-        this.vendor = v;
-        this.onTimePercentage = o;
-        this.qualityCompliancePercentage = q;
-        this.overallScore = overall;
+    public VendorPerformanceScore() {
+        // default constructor
     }
 
-    public Double getOnTimePercentage() { return onTimePercentage; }
-    public Double getQualityCompliancePercentage() { return qualityCompliancePercentage; }
-    public Double getOverallScore() { return overallScore; }
+    public VendorPerformanceScore(Vendor vendor,
+                                  Double onTimePercentage,
+                                  Double qualityCompliancePercentage,
+                                  Double overallScore) {
+        this.vendor = vendor;
+        this.onTimePercentage = onTimePercentage;
+        this.qualityCompliancePercentage = qualityCompliancePercentage;
+        this.overallScore = overallScore;
+    }
+
+    // ===== Getters and Setters =====
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public Double getOnTimePercentage() {
+        return onTimePercentage;
+    }
+
+    public Double getQualityCompliancePercentage() {
+        return qualityCompliancePercentage;
+    }
+
+    public Double getOverallScore() {
+        return overallScore;
+    }
+
+    public Timestamp getCalculatedAt() {
+        return calculatedAt;
+    }
 }

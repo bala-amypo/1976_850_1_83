@@ -19,35 +19,68 @@ public class DeliveryEvaluation {
     private Integer actualDeliveryDays;
     private Double qualityScore;
     private LocalDate evaluationDate;
+
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    public DeliveryEvaluation() {}
-
-    public DeliveryEvaluation(Vendor v, SLARequirement s, Integer d, Double q, LocalDate date) {
-        this.vendor = v;
-        this.slaRequirement = s;
-        this.actualDeliveryDays = d;
-        this.qualityScore = q;
-        this.evaluationDate = date;
+    public DeliveryEvaluation() {
+        // default constructor
     }
 
-    // getters & setters
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public DeliveryEvaluation(Vendor vendor, SLARequirement slaRequirement,
+                              Integer actualDeliveryDays, Double qualityScore,
+                              LocalDate evaluationDate) {
+        this.vendor = vendor;
+        this.slaRequirement = slaRequirement;
+        this.actualDeliveryDays = actualDeliveryDays;
+        this.qualityScore = qualityScore;
+        this.evaluationDate = evaluationDate;
+    }
 
-    public SLARequirement getSlaRequirement() { return slaRequirement; }
-    public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
+    // ===== Getters and Setters =====
 
-    public Integer getActualDeliveryDays() { return actualDeliveryDays; }
-    public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
+    public Long getId() {
+        return id;
+    }
 
-    public Double getQualityScore() { return qualityScore; }
-    public void setQualityScore(Double qualityScore) { this.qualityScore = qualityScore; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
-    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-    public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
-    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
-}
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public SLARequirement getSlaRequirement() {
+        return slaRequirement;
+    }
+
+    public void setSlaRequirement(SLARequirement slaRequirement) {
+        this.slaRequirement = slaRequirement;
+    }
+
+    public Integer getActualDeliveryDays() {
+        return actualDeliveryDays;
+    }
+
+    public void setActualDeliveryDays(Integer actualDeliveryDays) {
+        this.actualDeliveryDays = actualDeliveryDays;
+    }
+
+    public Double getQualityScore() {
+        return qualityScore;
+    }
+
+    public void setQualityScore(Double qualityScore) {
+        this.qualityScore = qualityScore;
+    }
+
+    public LocalDate getEvaluationDate() {
+        return evaluationDate;
+    }
+
+    public void
