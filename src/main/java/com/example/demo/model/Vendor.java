@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 public class Vendor {
@@ -15,33 +14,59 @@ public class Vendor {
 
     private String contactEmail;
     private String contactPhone;
+
     private Boolean active = true;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    public Vendor() {
+        // default constructor required by JPA
+    }
 
-    public Vendor() {}
-
-    public Vendor(String name, String email, String phone) {
+    public Vendor(String name, String contactEmail, String contactPhone) {
         this.name = name;
-        this.contactEmail = email;
-        this.contactPhone = phone;
+        this.contactEmail = contactEmail;
+        this.contactPhone = contactPhone;
         this.active = true;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ===== Getters and Setters =====
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getContactEmail() { return contactEmail; }
-    public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getContactPhone() { return contactPhone; }
-    public void setContactPhone(String contactPhone) { this.contactPhone = contactPhone; }
+    public String getName() {
+        return name;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
