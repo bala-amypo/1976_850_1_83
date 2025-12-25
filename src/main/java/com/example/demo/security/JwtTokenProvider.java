@@ -3,23 +3,24 @@ package com.example.demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+import java.security.Key;
 import java.util.Date;
 
 public class JwtTokenProvider {
 
-    private final String secretKey;
+    private final Key secretKey;
     private final long validityInMs;
 
-    // ✅ Constructor used in test cases
-    public JwtTokenProvider(String secretKey, long validityInMs) {
-        this.secretKey = secretKey;
+    // ✅ REQUIRED CONSTRUCTOR (TEST CASE DEPENDS ON THIS)
+    public JwtTokenProvider(String secret, long validityInMs) {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }
 
-    // ✅ Create JWT token
+    // ✅ CREATE TOKEN
     public String createToken(String email, String role, Long userId) {
-
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("email", email);
         claims.put("role", role);
@@ -32,26 +33,28 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // ✅ Validate JWT token
+    // ✅ VALIDATE TOKEN
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
+            Jwts.parserBuilder()
                     .setSigningKey(secretKey)
+                    .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return false;
         }
     }
 
-    // ✅ Extract claims
+    // ✅ GET CLAIMS
     public Claims getClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
