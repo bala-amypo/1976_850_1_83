@@ -9,28 +9,25 @@ public class SLARequirement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String requirementName;
-
     private String description;
     private Integer maxDeliveryDays;
-    private Double minQualityScore;
+    private Double qualityThreshold;
     private Boolean active = true;
 
     public SLARequirement() {
-        // default constructor
     }
 
-    public SLARequirement(String requirementName, String description,
-                          Integer maxDeliveryDays, Double minQualityScore) {
+    public SLARequirement(String requirementName,
+                          String description,
+                          Integer maxDeliveryDays,
+                          Double qualityThreshold) {
         this.requirementName = requirementName;
         this.description = description;
         this.maxDeliveryDays = maxDeliveryDays;
-        this.minQualityScore = minQualityScore;
+        this.qualityThreshold = qualityThreshold;
         this.active = true;
     }
-
-    // ===== Getters and Setters =====
 
     public Long getId() {
         return id;
@@ -52,12 +49,24 @@ public class SLARequirement {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Integer getMaxDeliveryDays() {
         return maxDeliveryDays;
     }
 
-    public Double getMinQualityScore() {
-        return minQualityScore;
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) {
+        this.maxDeliveryDays = maxDeliveryDays;
+    }
+
+    public Double getQualityThreshold() {
+        return qualityThreshold;
+    }
+
+    public void setQualityThreshold(Double qualityThreshold) {
+        this.qualityThreshold = qualityThreshold;
     }
 
     public Boolean getActive() {

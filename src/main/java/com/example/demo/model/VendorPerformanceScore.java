@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class VendorPerformanceScore {
@@ -17,10 +17,12 @@ public class VendorPerformanceScore {
     private Double qualityCompliancePercentage;
     private Double overallScore;
 
-    private Timestamp calculatedAt = new Timestamp(System.currentTimeMillis());
+    @ManyToOne
+    private VendorTier vendorTier;
+
+    private LocalDateTime calculatedAt = LocalDateTime.now();
 
     public VendorPerformanceScore() {
-        // default constructor
     }
 
     public VendorPerformanceScore(Vendor vendor,
@@ -31,16 +33,11 @@ public class VendorPerformanceScore {
         this.onTimePercentage = onTimePercentage;
         this.qualityCompliancePercentage = qualityCompliancePercentage;
         this.overallScore = overallScore;
+        this.calculatedAt = LocalDateTime.now();
     }
-
-    // ===== Getters and Setters =====
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Vendor getVendor() {
@@ -55,15 +52,35 @@ public class VendorPerformanceScore {
         return onTimePercentage;
     }
 
+    public void setOnTimePercentage(Double onTimePercentage) {
+        this.onTimePercentage = onTimePercentage;
+    }
+
     public Double getQualityCompliancePercentage() {
         return qualityCompliancePercentage;
+    }
+
+    public void setQualityCompliancePercentage(Double qualityCompliancePercentage) {
+        this.qualityCompliancePercentage = qualityCompliancePercentage;
     }
 
     public Double getOverallScore() {
         return overallScore;
     }
 
-    public Timestamp getCalculatedAt() {
+    public void setOverallScore(Double overallScore) {
+        this.overallScore = overallScore;
+    }
+
+    public VendorTier getVendorTier() {
+        return vendorTier;
+    }
+
+    public void setVendorTier(VendorTier vendorTier) {
+        this.vendorTier = vendorTier;
+    }
+
+    public LocalDateTime getCalculatedAt() {
         return calculatedAt;
     }
 }
