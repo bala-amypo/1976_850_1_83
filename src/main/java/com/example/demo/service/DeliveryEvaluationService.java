@@ -12,5 +12,5 @@ public interface DeliveryEvaluationService {
 
     List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId);
 
-    List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId);
+    List<DeliveryEvaluation> getEvaluationsForRequirement(Long slaId);
 }
