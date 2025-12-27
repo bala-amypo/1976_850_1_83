@@ -13,13 +13,13 @@ public class JwtTokenProvider {
     private final Key secretKey;
     private final long validityInMs;
 
-    // ✅ REQUIRED CONSTRUCTOR (TEST CASE DEPENDS ON THIS)
+    
     public JwtTokenProvider(String secret, long validityInMs) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }
 
-    // ✅ CREATE TOKEN
+   
     public String createToken(String email, String role, Long userId) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("email", email);
@@ -37,7 +37,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // ✅ VALIDATE TOKEN
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -50,7 +49,7 @@ public class JwtTokenProvider {
         }
     }
 
-    // ✅ GET CLAIMS
+   
     public Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
